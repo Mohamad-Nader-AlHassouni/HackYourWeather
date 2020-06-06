@@ -1,9 +1,8 @@
 import React from 'react'
-import "./Button.css";
 
 const Button = (props) => {
     return (
-        <button className="searchButton" onClick={props.onClick}>{props.children}</button>
+        <button className={props.class} onClick={props.onClick}>{props.children}</button>
     )
 };
 

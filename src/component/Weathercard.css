@@ -6,3 +6,14 @@
     text-align: left;
     padding: 5px 30px;
 }
+
+.closeCard {
+    margin-top: 10px;
+    text-align: right;
+}
+
+.closeButton {
+    font-size: 1.2rem;
+    background-color: #e6e6e6;
+    border-radius: 10px;
+}

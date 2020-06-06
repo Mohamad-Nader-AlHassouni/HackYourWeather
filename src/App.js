@@ -8,7 +8,7 @@ import Input from "./component/Input"
 const App = () => {
   const apiKey = process.env.REACT_APP_OPENWEATHERMAP_API_KEY;
   const [cityName, setCityName] = useState('');
-  const [cityData, setCityData] = useState({});
+  const [citiesData, setCitiesData] = useState([]);
   const [error, setError] = useState(false)
   const [isLoading,setIsLoading] = useState(false)
   const getCityWeather = () => {
@@ -21,7 +21,7 @@ const App = () => {
         setError(true)
         setIsLoading(false);
       }else{
-        setCityData({...data});
+        setCitiesData([...citiesData, data]);
         setError(false)
         setIsLoading(false);
       }
@@ -34,6 +34,11 @@ const App = () => {
   const onChangeInput = (val)=> {
     setCityName(val)
   }
+
+  const removeCity = (id) => {
+    const filteredCities = citiesData.filter(city=> city.id !== id)
+    setCitiesData(filteredCities)
+  }
   
   
 
@@ -41,9 +46,18 @@ const App = () => {
     <div className="App">
       <h1>Weather</h1>
       <Input onChange={onChangeInput} val={cityName}></Input>
-      <Button onClick={getCityWeather}>Search</Button>
+      <Button class="searchButton" onClick={getCityWeather}>Search</Button>
       {isLoading && !error ? <p>Loading ...</p>: null}
-      {!isLoading && cityData && !error ? <WeatherCard data={cityData}/> : null}
+      <div className="container">
+      {!isLoading && citiesData && !error ?
+      citiesData.map(city =>{
+        return (
+          <WeatherCard key={city.id} removeCity={removeCity} data={city}/>
+        )
+      })
+        :  null}
+        </div>
+       {citiesData.length === 0 &&  <p>write a city name</p>}
       {error && <p className="errorMessage">Please enter a valid city name!</p>}
     </div>
     )
